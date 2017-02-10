@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-public class SignalStrengthView: UIView {
+open class SignalStrengthView: UIView {
     
     //MARK: Interace
     var dot1: SignalStrengthDotView!
@@ -19,32 +19,32 @@ public class SignalStrengthView: UIView {
     var dot5: SignalStrengthDotView!
     
     //MARK: Properties
-    public var color = UIColor.blackColor() {
+    open var color = UIColor.black {
         didSet {
             self.update()
         }
     }
     
-    public var signal: SignalStrength = .Unknown {
+    open var signal: SignalStrength = .unknown {
         didSet {
             self.update()
         }
     }
-    public var flipped: Bool = true
+    open var flipped: Bool = true
     
     //MARK: Enumerations
     public enum SignalStrength {
-        case Excellent
-        case VeryGood
-        case Good
-        case Low
-        case VeryLow
-        case NoSignal
-        case Unknown
+        case excellent
+        case veryGood
+        case good
+        case low
+        case veryLow
+        case noSignal
+        case unknown
     }
     
     //MARK: Lifecycle
-    override public func awakeFromNib() {
+    override open func awakeFromNib() {
         super.awakeFromNib()
         
         self.initializeDots()
@@ -80,15 +80,15 @@ public class SignalStrengthView: UIView {
         dot5.on = true
         
         switch self.signal {
-        case .Excellent:
+        case .excellent:
             break
-        case .VeryGood:
+        case .veryGood:
             if self.flipped {
                 dot1.on = false
             } else {
                 dot5.on = false
             }
-        case .Good:
+        case .good:
             if self.flipped {
                 dot1.on = false
                 dot2.on = false
@@ -96,7 +96,7 @@ public class SignalStrengthView: UIView {
                 dot5.on = false
                 dot4.on = false
             }
-        case .Low:
+        case .low:
             if self.flipped {
                 dot1.on = false
                 dot2.on = false
@@ -105,7 +105,7 @@ public class SignalStrengthView: UIView {
                 dot4.on = false
             }
             dot3.on = false
-        case .VeryLow:
+        case .veryLow:
             
             if self.flipped {
                 dot1.on = false
@@ -116,7 +116,7 @@ public class SignalStrengthView: UIView {
             dot3.on = false
             dot2.on = false
             
-        case .NoSignal, .Unknown:
+        case .noSignal, .unknown:
             dot5.on = false
             dot4.on = false
             dot3.on = false
@@ -126,7 +126,7 @@ public class SignalStrengthView: UIView {
     }
     
     //MARK: Designable
-    override public func prepareForInterfaceBuilder() {
+    override open func prepareForInterfaceBuilder() {
         super.prepareForInterfaceBuilder()
         
         self.awakeFromNib()
@@ -146,22 +146,22 @@ class SignalStrengthDotView: UIView {
         }
     }
     
-    var color = UIColor.blackColor() {
+    var color = UIColor.black {
         didSet {
             self.update()
         }
     }
     
     //MARK: Class
-    class func addAfter(leadingView: UIView, inView: UIView) -> SignalStrengthDotView {
+    class func addAfter(_ leadingView: UIView, inView: UIView) -> SignalStrengthDotView {
         return self.addAfter(leadingView, inView: inView, lastView: nil)
     }
     
-    class func addAfter(leadingView: UIView, inView superview: UIView, lastView: UIView?) -> SignalStrengthDotView {
+    class func addAfter(_ leadingView: UIView, inView superview: UIView, lastView: UIView?) -> SignalStrengthDotView {
         let dot = SignalStrengthDotView()
         
         
-        dot.layer.borderColor = UIColor.blackColor().CGColor
+        dot.layer.borderColor = UIColor.black.cgColor
         dot.layer.borderWidth = 0.5
         
         dot.on = false
@@ -172,32 +172,32 @@ class SignalStrengthDotView: UIView {
         dot.layer.cornerRadius = size / 2
         
         dot.addConstraint(
-            NSLayoutConstraint(item: dot, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: size)
+            NSLayoutConstraint(item: dot, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: size)
         )
         dot.addConstraint(
-            NSLayoutConstraint(item: dot, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: size)
+            NSLayoutConstraint(item: dot, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: size)
         )
         
         superview.addConstraint(
-            NSLayoutConstraint(item: superview, attribute: .Top, relatedBy: .Equal, toItem: dot, attribute: .Top, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: superview, attribute: .top, relatedBy: .equal, toItem: dot, attribute: .top, multiplier: 1, constant: 0)
         )
         superview.addConstraint(
-            NSLayoutConstraint(item: superview, attribute: .Bottom, relatedBy: .Equal, toItem: dot, attribute: .Bottom, multiplier: 1, constant: 0)
+            NSLayoutConstraint(item: superview, attribute: .bottom, relatedBy: .equal, toItem: dot, attribute: .bottom, multiplier: 1, constant: 0)
         )
         
         if leadingView == superview {
             superview.addConstraint(
-                NSLayoutConstraint(item: dot, attribute: .Left, relatedBy: .Equal, toItem: leadingView, attribute: .Left, multiplier: 1, constant: 0)
+                NSLayoutConstraint(item: dot, attribute: .left, relatedBy: .equal, toItem: leadingView, attribute: .left, multiplier: 1, constant: 0)
             )
         } else {
             superview.addConstraint(
-                NSLayoutConstraint(item: dot, attribute: .Left, relatedBy: .Equal, toItem: leadingView, attribute: .Right, multiplier: 1, constant: spacing)
+                NSLayoutConstraint(item: dot, attribute: .left, relatedBy: .equal, toItem: leadingView, attribute: .right, multiplier: 1, constant: spacing)
             )
         }
         
         if let lastView = lastView {
             superview.addConstraint(
-                NSLayoutConstraint(item: lastView, attribute: .Right, relatedBy: .Equal, toItem: dot, attribute: .Right, multiplier: 1, constant: 0)
+                NSLayoutConstraint(item: lastView, attribute: .right, relatedBy: .equal, toItem: dot, attribute: .right, multiplier: 1, constant: 0)
             )
         }
         
@@ -206,12 +206,12 @@ class SignalStrengthDotView: UIView {
     
     //MARK: Functions
     func update() {
-        self.layer.borderColor = self.color.CGColor
+        self.layer.borderColor = self.color.cgColor
         
         if self.on {
             self.backgroundColor = self.color
         } else {
-            self.backgroundColor = UIColor.clearColor()
+            self.backgroundColor = UIColor.clear
         }
     }
     
